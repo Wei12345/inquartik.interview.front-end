@@ -18,8 +18,17 @@ export default {
     const orders = ref([
       {
         id: uniqueNumber(),
-        name: '我是一張訂單',
+        name: 'a我是一張訂單',
         price: 100,
+        notes: [
+          { id: uniqueNumber(), isCompleted: false, text: '我是第一個筆記' },
+          { id: uniqueNumber(), isCompleted: true, text: '我是第二個筆記' }
+        ]
+      },
+      {
+        id: uniqueNumber(),
+        name: 'b我是一張訂單',
+        price: 101,
         notes: [
           { id: uniqueNumber(), isCompleted: false, text: '我是第一個筆記' },
           { id: uniqueNumber(), isCompleted: true, text: '我是第二個筆記' }
