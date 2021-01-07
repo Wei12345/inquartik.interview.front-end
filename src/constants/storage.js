@@ -1,0 +1,1 @@
+export const ORDER_LOCAL_STORAGE_KEY = 'orders';
