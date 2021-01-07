@@ -7,22 +7,18 @@
         </th>
         <th><div class="list-th-content">Price <SortTool :sortKey="SortKey.PRICE" v-model:sort="sort" /></div></th>
         <th>Note</th>
+        <th>Edit</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(order) in sortedOrderes" :key="order.id">
-        <th>{{ order.name }}</th>
-        <th>{{ order.price }}</th>
-        <th>
-          <ul>
-            <li v-for="(note) in order.notes" :key="note.id">
-              <input type="checkbox" :checked="note.isCompleted" @change="noteIsCompletedChange({ orderId: order.id, noteId: note.id } , $event)"/>
-              {{ note.isCompleted }}
-              {{ note.text }}
-            </li>
-          </ul>
-        </th>
-      </tr>
+      <OrderItem
+        v-for="order in sortedOrderes"
+        :key="order.id"
+        :order="order"
+        @noteIsCompletedChange="noteIsCompletedChange"
+        @orderEdit="orderEdit"
+        @orderDelete="orderDelete"/>
     </tbody>
   </table>
 </template>
@@ -31,10 +27,11 @@
 import { toRef, ref, computed } from 'vue';
 
 import SortTool, { Sort } from '@/components/SortTool';
+import OrderItem from './OrderItem'
 
 export default {
   name: 'OrderList',
-  components: { SortTool },
+  components: { SortTool, OrderItem },
   props: ['orders'],
   emits: ['update:orders'],
   setup(props, { emit }) {
@@ -58,18 +55,34 @@ export default {
       return newOrders.value
     });
 
-    const noteIsCompletedChange = ({ orderId, noteId }, event) => {
+    const noteIsCompletedChange = ({ orderId, noteId }, value) => {
       const newOrders = toRef(props, 'orders')
       const orderIndex = newOrders.value.findIndex(order => order.id === orderId);
       const noteIndex = newOrders.value[orderIndex].notes.findIndex(note => note.id === noteId);
-      newOrders.value[orderIndex].notes[noteIndex].isCompleted = event.target.checked;
-      emit('update:orders', newOrders.value)
+      newOrders.value[orderIndex].notes[noteIndex].isCompleted = value;
+      emit('update:orders', newOrders.value);
+    }
+
+    const orderEdit = (newOrder) => {
+      const newOrders = toRef(props, 'orders')
+      const orderIndex = newOrders.value.findIndex(order => order.id === newOrder.id);
+      newOrders.value.splice(orderIndex, 1, newOrder);
+      emit('update:orders', newOrders.value);
+    }
+
+    const orderDelete = (orderId) => {
+      const newOrders = toRef(props, 'orders')
+      const orderIndex = newOrders.value.findIndex(order => order.id === orderId);
+      newOrders.value.splice(orderIndex, 1);
+      emit('update:orders', newOrders.value);
     }
 
     return {
       SortKey,
       sort,
       sortedOrderes,
+      orderEdit,
+      orderDelete,
       noteIsCompletedChange
     }
   }
