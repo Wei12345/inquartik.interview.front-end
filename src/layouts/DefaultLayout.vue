@@ -1,7 +1,7 @@
 <template>
   <div class="default-layout">
     <Navbar />
-    <router-view />
+    <router-view class="content" />
   </div>
 </template>
 
@@ -28,5 +28,8 @@ export default {
 
   .default-layout {
     margin-top: 60px;
+    .content {
+      margin-top: 30px;
+    }
   }
 </style>

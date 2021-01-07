@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 
 import DefaultLayout from '@/layouts/DefaultLayout';
 
-import HomePage from '@/pages/Home';
+import HomePage from '@/pages/Home/Index';
 
 const routes = [
    {
