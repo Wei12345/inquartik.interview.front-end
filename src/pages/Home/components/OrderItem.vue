@@ -13,9 +13,11 @@
       <template v-else>
         <ul>
           <li v-for="(note) in order.notes" :key="note.id">
-            <input type="checkbox" :checked="note.isCompleted" @change="noteIsCompletedChange({ orderId: order.id, noteId: note.id } , $event)"/>
-            {{ note.isCompleted }}
-            {{ note.text }}
+            <label>
+              <input type="checkbox" :checked="note.isCompleted" @change="noteIsCompletedChange({ orderId: order.id, noteId: note.id } , $event)"/>
+              {{ note.text }}
+            </label>
+            
           </li>
         </ul>
       </template>
