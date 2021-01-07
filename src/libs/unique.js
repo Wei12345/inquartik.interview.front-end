@@ -4,7 +4,7 @@ const orderData = JSON.parse(localStorage.getItem(ORDER_LOCAL_STORAGE_KEY)) || [
 
 const numberOrderIds = orderData.map(order => order.id)
 const numberOrderNoteIds = orderData.map(order => order.notes.map(note => note.id)).flat();
-const maxNumberId = Math.max(...numberOrderIds, ...numberOrderNoteIds);
+const maxNumberId = Math.max(-1, ...numberOrderIds, ...numberOrderNoteIds);
 
 let currentNumber = maxNumberId + 1;
 
